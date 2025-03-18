@@ -26,16 +26,12 @@ while current_date <= END_DATE:
         'q': LOCATION,
         'dt': formatted_date
     }
-
     try:
         response = requests.get(url, params=params)
         data = response.json()
-
         hourly_data = data['forecast']['forecastday'][0]['hour']
-
         with open(csv_file, mode='a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-
             for hour in hourly_data:
                 writer.writerow([
                     hour['time'],
@@ -43,11 +39,8 @@ while current_date <= END_DATE:
                     hour['humidity'],
                     hour['pressure_mb']
                 ])
-
         print(f"Saved hourly data for {formatted_date}")
-
     except Exception as e:
         print(f"Error on {formatted_date}: {e}")
-
     current_date += timedelta(days=1)
     time.sleep(5)
