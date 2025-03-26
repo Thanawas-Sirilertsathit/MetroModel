@@ -2,11 +2,12 @@ import requests
 import time
 import csv
 from datetime import datetime, timedelta
+from decouple import config
 
-API_KEY = 'Your api key'
+API_KEY = config('API_KEY')
 LOCATION = 'Bangkok'
-START_DATE = datetime(2021, 1, 24)
-END_DATE = datetime(2021, 1, 24)
+START_DATE = datetime(2025, 3, 1)
+END_DATE = datetime(2025, 3, 15)
 
 url = 'https://api.weatherapi.com/v1/history.json'
 csv_file = 'weather_hourly_data.csv'
