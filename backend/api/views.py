@@ -1,3 +1,5 @@
+from django.db.models import Avg
+from django.db.models.functions import TruncHour
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import SampleDataSerializer, ProjectSerializer
@@ -9,8 +11,20 @@ class SampleDataView(APIView):
         serializer = SampleDataSerializer(data)
         return Response(serializer.data)
 
-class ProjectListAPIView(APIView):
+class ProjectHourlyAverageAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        projects = Project.objects.all()
-        serializer = ProjectSerializer(projects, many=True)
-        return Response(serializer.data)
+        hourly_data = (
+            Project.objects
+            .annotate(hour=TruncHour('ts'))
+            .values('hour')  # Grouping key
+            .annotate(
+                lat=Avg('lat'),
+                lon=Avg('lon'),
+                humid=Avg('humidity'),
+                pressure=Avg('pressure'),
+                temp=Avg('temperature')
+            )
+            .order_by('hour')
+        )
+
+        return Response(hourly_data)

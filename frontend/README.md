@@ -1,15 +1,24 @@
-# frontend
+# metromodel
 
-To install dependencies:
-
-```bash
-bun install
+## Project setup
+```
+npm install
 ```
 
-To run:
-
-```bash
-bun run index.ts
+### Compiles and hot-reloads for development
+```
+npm run serve
 ```
 
-This project was created using `bun init` in bun v1.2.6. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
