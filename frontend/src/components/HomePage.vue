@@ -1,13 +1,16 @@
-<template>
+<template :class="isDarkTheme ? 'dark' : ''">
   <div :class="isDarkTheme ? 'dark' : ''" class="text-center p-8">
-    <h1 class="text-4xl font-bold">Welcome to Vue.js with Tailwind and DaisyUI!</h1>
-    <p class="mt-4 text-xl">This is the main landing page.</p>
-    <button @click="goToSamplePage" class="btn btn-primary mt-4">Go to Sample Page</button>
-    <button @click="toggleTheme" class="btn btn-secondary mt-4">
-      Toggle Theme
-    </button>
+    <div class="bg-white dark:bg-gray-800 text-black dark:text-white">
+      <h1 class="text-4xl font-bold">Welcome to Vue.js with Tailwind and DaisyUI!</h1>
+      <p class="mt-4 text-xl">This is the main landing page.</p>
+      <button @click="goToSamplePage" class="btn btn-primary mt-4">Go to Sample Page</button>
+      <button @click="toggleTheme" class="btn btn-secondary mt-4">
+        Toggle Theme
+      </button>
+    </div>
   </div>
 </template>
+
 
 <script>
 import { ref, onMounted } from 'vue';
