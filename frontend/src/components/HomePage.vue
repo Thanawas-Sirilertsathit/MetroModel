@@ -50,10 +50,3 @@ export default {
   },
 };
 </script>
-
-<!-- <style>
-body.dark {
-  background-color: #121212;
-  color: white;
-}
-</style> -->
