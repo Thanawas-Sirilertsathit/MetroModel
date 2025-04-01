@@ -11,6 +11,9 @@ module.exports = {
                 tertiary: "var(--tertiary)",
                 "tertiary-focus": "var(--tertiary-focus)",
                 "tertiary-content": "var(--tertiary-content)",
+                quinternary: "var(--quinternary)",
+                "quinternary-focus": "var(--quinternary-focus)",
+                "quinternary-content": "var(--quinternary-content)",
             },
         },
     },
@@ -38,6 +41,10 @@ module.exports = {
                     '--quaternary': '#610c04',
                     '--quaternary-focus': '#d21404',
                     '--quaternary-content': '#ffffff',
+
+                    '--quinternary': '#d16002',
+                    '--quinternary-focus': '#fcae1e',
+                    '--quinternary-content': '#ffffff',
 
                     'neutral' : '#2a2a37',
                     'neutral-focus' : '#16181d',

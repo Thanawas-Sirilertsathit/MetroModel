@@ -15,13 +15,13 @@
 
   /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: theme('colors.secondary');
+    background: theme('colors.base-content');
     border-radius: 5px;
 }
 
   /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.secondary-focus');
+    background: theme('colors.base-200');
 }
 
 
@@ -70,5 +70,77 @@
 }
 
 .btn-tertiary:active {
+  transform: scale(0.95);
+}
+
+.btn-secondary {
+  background-color: var(secondary);
+  color: var(secondary-content);
+  border: 1.5px solid var(secondary-focus);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-btn);
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn-secondary:hover {
+  background-color: var(secondary-focus);
+  transform: scale(1.05);
+}
+
+.btn-secondary:active {
+  transform: scale(0.95);
+}
+
+.btn-primary {
+  background-color: var(primary);
+  color: var(primary-content);
+  border: 1.5px solid var(primary-focus);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-btn);
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn-primary:hover {
+  background-color: var(primary-focus);
+  transform: scale(1.05);
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+.btn-accent {
+  background-color: var(accent);
+  color: var(accent-content);
+  border: 1.5px solid var(accent-focus);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-btn);
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn-accent:hover {
+  background-color: var(accent-focus);
+  transform: scale(1.05);
+}
+
+.btn-accent:active {
+  transform: scale(0.95);
+}
+
+.btn-quinternary {
+  background-color: var(--quinternary);
+  color: var(--quinternary-content);
+  border: 1.5px solid var(--quinternary-focus);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-btn);
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn-quinternary:hover {
+  background-color: var(--quinternary-focus);
+  transform: scale(1.05);
+}
+
+.btn-quinternary:active {
   transform: scale(0.95);
 }

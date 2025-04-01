@@ -18,7 +18,10 @@
       >
         <div class="card-body">
           <h2 class="card-title">{{ block.title }}</h2>
+          <div class="flex">
           <p>{{ block.description }}</p>
+          <button class="btn-quinternary">View</button>
+          </div>
         </div>
       </div>
     </div>
