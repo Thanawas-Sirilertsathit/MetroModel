@@ -35,3 +35,40 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+/* Custom button */
+.btn-quaternary {
+  background-color: var(--quaternary);
+  color: var(--quaternary-content);
+  border: 1.5px solid var(--quaternary-focus);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-btn);
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn-quaternary:hover {
+  background-color: var(--quaternary-focus);
+  transform: scale(1.05);
+}
+
+.btn-quaternary:active {
+  transform: scale(0.95);
+}
+
+.btn-tertiary {
+  background-color: var(--tertiary);
+  color: var(--tertiary-content);
+  border: 1.5px solid var(--tertiary-focus);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-btn);
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn-tertiary:hover {
+  background-color: var(--tertiary-focus);
+  transform: scale(1.05);
+}
+
+.btn-tertiary:active {
+  transform: scale(0.95);
+}

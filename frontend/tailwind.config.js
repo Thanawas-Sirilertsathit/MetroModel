@@ -3,64 +3,41 @@ module.exports = {
       "./src/**/*.{html,js,vue}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                quaternary: "var(--quaternary)",
+                "quaternary-focus": "var(--quaternary-focus)",
+                "quaternary-content": "var(--quaternary-content)",
+                tertiary: "var(--tertiary)",
+                "tertiary-focus": "var(--tertiary-focus)",
+                "tertiary-content": "var(--tertiary-content)",
+            },
+        },
     },
     plugins: [require("daisyui")],
     darkMode: 'class',
     daisyui: {
-        themes: [
-            {
-                'my-light': {
-                    'primary' : '#66cc8a',
-                    'primary-focus' : '#41be6d',
-                    'primary-content' : '#f9fafb',
-
-                    'secondary' : '#006b60',
-                    'secondary-focus' : '#014b44',
-                    'secondary-content' : '#f9fafb',
-
-                    'accent' : '#4b8078',
-                    'accent-focus' : '#3a645d',
-                    'accent-content' : '#f9fafb',
-
-                    'neutral' : '#333c4d',
-                    'neutral-focus' : '#1f242e',
-                    'neutral-content' : '#f9fafb',
-
-                    'base-100' : '#ffffff',
-                    'base-200' : '#e3e6e8',
-                    'base-300' : '#d4d4d4',
-                    'base-content' : '#333c4d',
-
-                    'info' : '#1c92f2',
-                    'success' : '#009485',
-                    'warning' : '#ff9900',
-                    'error' : '#ff5724',
-
-                    '--rounded-box': '1rem',          
-                    '--rounded-btn': '.5rem',        
-                    '--rounded-badge': '1.9rem',      
-
-                    '--animation-btn': '0',       
-                    '--animation-input': '0',       
-
-                    '--btn-text-case': 'uppercase',   
-                    '--navbar-padding': '.5rem',      
-                    '--border-btn': '1px',       
-                },
-            }, {
+        themes: [ {
                 'my-dark': {
-                    'primary' : '#55a548',
-                    'primary-focus' : '#376a2f',
+                    'primary' : '#376a2f',
+                    'primary-focus' : '#55a548',
                     'primary-content' : '#ffffff',
 
-                    'secondary' : '#1b716e',
-                    'secondary-focus' : '#145250',
+                    'secondary' : '#0a1172',
+                    'secondary-focus' : '#3944bc',
                     'secondary-content' : '#ffffff',
 
-                    'accent' : '#bac03c',
-                    'accent-focus' : '#8e932f',
+                    'accent' : '#ffd700',
+                    'accent-focus' : '#fff44f',
                     'accent-content' : '#000000',
+
+                    '--tertiary': '#e11584',
+                    '--tertiary-focus': '#f699cd',
+                    '--tertiary-content': '#000000',
+
+                    '--quaternary': '#610c04',
+                    '--quaternary-focus': '#d21404',
+                    '--quaternary-content': '#ffffff',
 
                     'neutral' : '#2a2a37',
                     'neutral-focus' : '#16181d',
