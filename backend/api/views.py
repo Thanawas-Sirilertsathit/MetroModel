@@ -16,7 +16,7 @@ class ProjectHourlyAverageAPIView(APIView):
         hourly_data = (
             Project.objects
             .annotate(hour=TruncHour('ts'))
-            .values('hour')  # Grouping key
+            .values('hour')
             .annotate(
                 lat=Avg('lat'),
                 lon=Avg('lon'),
@@ -26,5 +26,4 @@ class ProjectHourlyAverageAPIView(APIView):
             )
             .order_by('hour')
         )
-
         return Response(hourly_data)
