@@ -67,11 +67,3 @@ class SRTNaiveBayes(PassengerNaiveBayesModel):
         X_new = X_new[self.X_test.columns]
         preds = self.model.predict(X_new)
         return preds
-
-
-
-if __name__ == '__main__':
-    model = SRTNaiveBayes()
-    df = model.preprocess()
-    model.train(df)
-    model.evaluate()

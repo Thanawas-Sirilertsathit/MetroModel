@@ -1,1 +1,0 @@
-RATING_MAP = {"Very Low": 0, "Low": 1, "Moderate": 2, "Crowded": 3, "Dense": 4, "Very Dense": 5}

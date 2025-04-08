@@ -7,7 +7,7 @@ import statsmodels.api as sm
 from statsmodels.regression.quantile_regression import QuantReg
 from passenger_qr import PassengerQuantileRegressor
 from srt_naive import SRTNaiveBayes
-from rating_map import RATING_MAP
+from constant import RATING_MAP
 
 class SRTQuantileRegressor(PassengerQuantileRegressor):
     """Quantile Regression model for SRT train line"""
@@ -47,29 +47,3 @@ class SRTQuantileRegressor(PassengerQuantileRegressor):
         """Prepare the data from Naive Bayes to prediction"""
         df["Passenger_Rating"] = pd.Series(nb_result).map(rating_map)
         return df
-
-
-if __name__ == '__main__':
-    nb = SRTNaiveBayes()
-    df = nb.preprocess()
-    nb.train(df)
-    nb.evaluate()
-    qr = SRTQuantileRegressor(quantile=0.48)
-    X_train, X_test, y_train, y_test = qr.preprocess(df, RATING_MAP)
-    qr.train(X_train, y_train, X_test, y_test)
-    qr.evaluate()
-    example_data = pd.DataFrame({
-    "Hour": [9, 13, 17],    
-    "Time_Block": ["Morning", "Afternoon", "Evening"],
-    "Day_of_Week": ["Saturday", "Friday", "Sunday"],
-    "temperature_c": [30.2, 36.5, 37.5],
-    "humidity": [70, 82, 50],
-    "pressure_mb": [1005.1, 1003.7, 1100.2],
-    })
-    predicted_ratings = nb.predict(example_data)
-    print("Naive Bayes Predicted Ratings:", predicted_ratings.tolist())
-    example_data = qr.rating_map(example_data, predicted_ratings, RATING_MAP)
-    print(example_data)
-    predicted_counts = qr.predict(example_data)
-    predicted_counts = [int(round(x)) for x in predicted_counts]
-    print("Quantile Regression Predicted Passenger Count:", predicted_counts)
