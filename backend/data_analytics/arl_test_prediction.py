@@ -1,15 +1,15 @@
-from yl_naive import YLNaiveBayes
-from yl_quantile import YLQuantileRegressor
-from constant import RATING_MAP, EXAMPLE_DATA
+from data_analytics.arl_naive import ARLNaiveBayes
+from data_analytics.arl_quantile import ARLQuantileRegressor
+from data_analytics.constant import RATING_MAP, EXAMPLE_DATA
 
 
-nb = YLNaiveBayes()
+nb = ARLNaiveBayes()
 df = nb.preprocess()
 nb.train(df)
 nb.evaluate()
 
 
-qr = YLQuantileRegressor(quantile=0.56)
+qr = ARLQuantileRegressor(quantile=0.51)
 X_train, X_test, y_train, y_test = qr.preprocess(df, RATING_MAP)
 qr.train(X_train, y_train, X_test, y_test)
 qr.evaluate()

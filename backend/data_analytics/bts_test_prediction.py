@@ -1,6 +1,6 @@
-from bts_naive import BTSNaiveBayes
-from bts_quantile import BTSQuantileRegressor
-from constant import RATING_MAP, EXAMPLE_DATA
+from data_analytics.bts_naive import BTSNaiveBayes
+from data_analytics.bts_quantile import BTSQuantileRegressor
+from data_analytics.constant import RATING_MAP, EXAMPLE_DATA
 
 
 nb = BTSNaiveBayes()

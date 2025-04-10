@@ -1,23 +1,28 @@
-from srt_naive import SRTNaiveBayes
-from srt_quantile import SRTQuantileRegressor
-from constant import RATING_MAP, EXAMPLE_DATA
+from data_analytics.pk_naive import PKNaiveBayes
+from data_analytics.pk_quantile import PKQuantileRegressor
+from data_analytics.constant import RATING_MAP, EXAMPLE_DATA
 
-nb = SRTNaiveBayes()
+
+nb = PKNaiveBayes()
 df = nb.preprocess()
 nb.train(df)
 nb.evaluate()
 
-qr = SRTQuantileRegressor(quantile=0.48)
+
+qr = PKQuantileRegressor(quantile=0.45)
 X_train, X_test, y_train, y_test = qr.preprocess(df, RATING_MAP)
 qr.train(X_train, y_train, X_test, y_test)
 qr.evaluate()
+
 
 example_data = EXAMPLE_DATA
 predicted_ratings = nb.predict(example_data)
 print("Naive Bayes Predicted Ratings:", predicted_ratings.tolist())
 
+
 example_data = qr.rating_map(example_data, predicted_ratings, RATING_MAP)
 print(example_data)
+
 
 predicted_counts = qr.predict(example_data)
 predicted_counts = [int(round(x)) for x in predicted_counts]

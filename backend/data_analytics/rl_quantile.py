@@ -1,13 +1,9 @@
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm
 from statsmodels.regression.quantile_regression import QuantReg
-from passenger_qr import PassengerQuantileRegressor
-from rl_naive import RLNaiveBayes
-from constant import RATING_MAP
+from data_analytics.passenger_qr import PassengerQuantileRegressor
 
 class RLQuantileRegressor(PassengerQuantileRegressor):
     """Quantile Regression model for Red Line"""

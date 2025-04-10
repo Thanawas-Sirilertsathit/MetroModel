@@ -1,4 +1,4 @@
-from passenger_model import PassengerModelBase
+from data_analytics.passenger_model import PassengerModelBase
 from sklearn.metrics import mean_squared_error, r2_score
 from statsmodels.regression.quantile_regression import QuantReg
 import statsmodels.api as sm

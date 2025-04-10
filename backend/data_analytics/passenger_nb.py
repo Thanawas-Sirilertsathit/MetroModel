@@ -1,4 +1,4 @@
-from passenger_model import PassengerModelBase
+from data_analytics.passenger_model import PassengerModelBase
 from sklearn.naive_bayes import CategoricalNB
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelEncoder, StandardScaler

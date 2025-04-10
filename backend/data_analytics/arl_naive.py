@@ -3,10 +3,10 @@ import numpy as np
 from sklearn.utils import resample
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from passenger_nb import PassengerNaiveBayesModel
+from data_analytics.passenger_nb import PassengerNaiveBayesModel
 
-class SRTNaiveBayes(PassengerNaiveBayesModel):
-    """Naive Bayes model for SRT train line"""
+class ARLNaiveBayes(PassengerNaiveBayesModel):
+    """Naive Bayes model for Airport Rail Link"""
     def __init__(self, quantile_edges=None, labels=None, features=None):
         """Initialize Naive Bayes"""
         super().__init__()
@@ -14,8 +14,8 @@ class SRTNaiveBayes(PassengerNaiveBayesModel):
         self.labels = labels or ["Very Low", "Low", "Moderate", "Crowded", "Dense", "Very Dense"]
         self.features = features or ["temperature_c", "humidity", "pressure_mb", "Time_Block", "Day_of_Week", "Hour"]
 
-    def preprocess(self, df=pd.read_csv("integrated_weather_and_train.csv"), organization="SRT"):
-        """Preprocess data for SRT"""
+    def preprocess(self, df=pd.read_csv("integrated_weather_and_train.csv"), organization="ARL"):
+        """Preprocess data for ARL"""
         df = df[df["Organization"] == organization].copy()
         df = df.dropna(subset=self.features + ["Passenger_Count"])
         quantiles = df["Passenger_Count"].quantile(self.quantile_edges).values

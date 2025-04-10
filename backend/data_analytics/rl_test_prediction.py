@@ -1,6 +1,6 @@
-from rl_naive import RLNaiveBayes
-from rl_quantile import RLQuantileRegressor
-from constant import RATING_MAP, EXAMPLE_DATA
+from data_analytics.rl_naive import RLNaiveBayes
+from data_analytics.rl_quantile import RLQuantileRegressor
+from data_analytics.constant import RATING_MAP, EXAMPLE_DATA
 
 
 nb = RLNaiveBayes()

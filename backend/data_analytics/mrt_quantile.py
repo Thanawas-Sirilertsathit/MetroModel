@@ -1,23 +1,19 @@
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm
 from statsmodels.regression.quantile_regression import QuantReg
-from passenger_qr import PassengerQuantileRegressor
-from arl_naive import ARLNaiveBayes
-from constant import RATING_MAP
+from data_analytics.passenger_qr import PassengerQuantileRegressor
 
-class ARLQuantileRegressor(PassengerQuantileRegressor):
-    """Quantile Regression model for Airport Rail Link"""
-    def __init__(self, quantile=0.51):
+class MRTQuantileRegressor(PassengerQuantileRegressor):
+    """Quantile Regression model for MRT train line"""
+    def __init__(self, quantile=0.5):
         """Initialize Quantile Regressor."""
         super().__init__(quantile=quantile)
 
     def preprocess(self, df, rating_map=None):
-        """Preprocess data for ARL"""
-        df = df[df["Organization"] == "ARL"].copy()
+        """Preprocess data for MRT"""
+        df = df[df["Organization"] == "MRT"].copy()
         df = df.drop(columns=["Organization", "Datetime", "Rating_Label"], errors="ignore")
         if rating_map:
             df["Passenger_Rating"] = df["Passenger_Rating"].map(rating_map)

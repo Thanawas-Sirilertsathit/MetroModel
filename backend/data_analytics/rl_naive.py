@@ -3,19 +3,19 @@ import numpy as np
 from sklearn.utils import resample
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from passenger_nb import PassengerNaiveBayesModel
+from data_analytics.passenger_nb import PassengerNaiveBayesModel
 
-class PKNaiveBayes(PassengerNaiveBayesModel):
-    """Naive Bayes model for Pink Line"""
+class RLNaiveBayes(PassengerNaiveBayesModel):
+    """Naive Bayes model for Red Line"""
     def __init__(self, quantile_edges=None, labels=None, features=None):
         """Initialize Naive Bayes"""
         super().__init__()
-        self.quantile_edges = quantile_edges or [0.0, 0.025, 0.22, 0.5, 0.78, 0.975, 1.0]
+        self.quantile_edges = quantile_edges or [0.0, 0.02, 0.07, 0.5, 0.93, 0.98, 1.0]
         self.labels = labels or ["Very Low", "Low", "Moderate", "Crowded", "Dense", "Very Dense"]
         self.features = features or ["temperature_c", "humidity", "pressure_mb", "Time_Block", "Day_of_Week", "Hour"]
 
-    def preprocess(self, df=pd.read_csv("integrated_weather_and_train.csv"), organization="PK"):
-        """Preprocess data for Pink Line"""
+    def preprocess(self, df=pd.read_csv("integrated_weather_and_train.csv"), organization="RL"):
+        """Preprocess data for Red Line"""
         df = df[df["Organization"] == organization].copy()
         df = df.dropna(subset=self.features + ["Passenger_Count"])
         quantiles = df["Passenger_Count"].quantile(self.quantile_edges).values

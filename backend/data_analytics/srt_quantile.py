@@ -1,24 +1,20 @@
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm
 from statsmodels.regression.quantile_regression import QuantReg
-from passenger_qr import PassengerQuantileRegressor
-from pk_naive import PKNaiveBayes
-from constant import RATING_MAP
+from data_analytics.passenger_qr import PassengerQuantileRegressor
 
-class PKQuantileRegressor(PassengerQuantileRegressor):
-    """Quantile Regression model for Pink Line"""
-    def __init__(self, quantile=0.45):
+class SRTQuantileRegressor(PassengerQuantileRegressor):
+    """Quantile Regression model for SRT train line"""
+    def __init__(self, quantile=0.48):
         """Initialize Quantile Regressor."""
         super().__init__(quantile=quantile)
 
     def preprocess(self, df, rating_map=None):
-        """Preprocess data for Pink Line"""
-        df = df[df["Organization"] == "PK"].copy()
-        df = df.drop(columns=["Organization", "Datetime", "Rating_Label"], errors="ignore")
+        """Preprocess data for SRT"""
+        df = df[df["Organization"] == "SRT"].copy()
+        df = df.drop(columns=["Organization", "Datetime","Rating_Label"], errors="ignore")
         if rating_map:
             df["Passenger_Rating"] = df["Passenger_Rating"].map(rating_map)
         for col in ["Time_Block", "Day_of_Week"]:
@@ -42,7 +38,7 @@ class PKQuantileRegressor(PassengerQuantileRegressor):
         self.result = self.model.fit(q=self.quantile)
         self.X_test_scaled = X_test_scaled
         self.y_test = y_test
-
+    
     def rating_map(self, df, nb_result, rating_map):
         """Prepare the data from Naive Bayes to prediction"""
         df["Passenger_Rating"] = pd.Series(nb_result).map(rating_map)
