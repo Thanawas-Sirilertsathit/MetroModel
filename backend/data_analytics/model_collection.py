@@ -66,6 +66,19 @@ class ModelCollections:
         for model_dict in self.model_list:
             if key == model_dict["id"]:
                 return model_dict
+    
+    def predict(self, key ,df):
+        """Predict the passenger count and return the value out."""
+        model_dict = self.get_model_dict(key)
+        if not model_dict:
+            raise ValueError("Incorrect key for organization.")
+        nb = model_dict["nb"]
+        qr = model_dict["qr"]
+        predicted_rating = nb.predict(df)
+        df = qr.rating_map(df, predicted_rating, self.RATING_MAP)
+        predicted_count = qr.predict(df)
+        predicted_count = [int(round(x)) for x in predicted_count]
+        return predicted_rating, predicted_count
 
 # const blocks = [
 #   { title: "State railway of Thailand (Normal train)", description: "Service time: 5:30 - 0:00", key: 1 },
