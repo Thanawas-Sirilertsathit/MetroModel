@@ -75,8 +75,8 @@ class ModelCollections:
         nb = model_dict["nb"]
         qr = model_dict["qr"]
         predicted_rating = nb.predict(df)
-        df = qr.rating_map(df, predicted_rating, self.RATING_MAP)
-        predicted_count = qr.predict(df)
+        new_df = qr.rating_map(df, predicted_rating, self.RATING_MAP)
+        predicted_count = qr.predict(new_df)
         predicted_count = [int(round(x)) for x in predicted_count]
         return predicted_rating, predicted_count
 

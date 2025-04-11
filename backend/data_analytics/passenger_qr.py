@@ -43,5 +43,6 @@ class PassengerQuantileRegressor(PassengerModelBase):
 
         X_new = X_new.apply(pd.to_numeric, errors="coerce")
         X_new_scaled = self.scaler.transform(X_new)
-        X_new_scaled = sm.add_constant(X_new_scaled)
-        return self.result.predict(X_new_scaled)
+        X_new_scaled = sm.add_constant(X_new_scaled, has_constant="add")
+        pred = self.result.predict(X_new_scaled)
+        return np.clip(pred, 100, None)

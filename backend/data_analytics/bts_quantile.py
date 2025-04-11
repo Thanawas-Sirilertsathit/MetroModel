@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 import statsmodels.api as sm
@@ -7,6 +8,7 @@ from data_analytics.passenger_qr import PassengerQuantileRegressor
 
 class BTSQuantileRegressor(PassengerQuantileRegressor):
     """Quantile Regression model for BTS train line"""
+    MIN = 2964
     def __init__(self, quantile=0.49):
         """Initialize Quantile Regressor."""
         super().__init__(quantile=quantile)
@@ -43,3 +45,16 @@ class BTSQuantileRegressor(PassengerQuantileRegressor):
         """Prepare the data from Naive Bayes to prediction"""
         df["Passenger_Rating"] = pd.Series(nb_result).map(rating_map)
         return df
+
+    def predict(self, X_new):
+        """Deploy model using it to predict value"""
+        for col, le in self.label_encoders.items():
+            if col in X_new.columns:
+                X_new[col] = le.transform(X_new[col])
+
+        X_new = X_new.apply(pd.to_numeric, errors="coerce")
+        X_new_scaled = self.scaler.transform(X_new)
+        X_new_scaled = sm.add_constant(X_new_scaled, has_constant="add")
+        print(X_new_scaled)
+        pred = self.result.predict(X_new_scaled)
+        return np.clip(pred, self.MIN, None)
