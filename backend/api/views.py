@@ -10,6 +10,7 @@ from .model_registry import model_collection
 from .utils import get_time_block, format_json_output
 
 class SampleDataView(APIView):
+    """Example template for API"""
     def get(self, request):
         data = {"message": "I am Rest API!"}
         serializer = SampleDataSerializer(data)
@@ -17,6 +18,7 @@ class SampleDataView(APIView):
 
 
 class ProjectHourlyAverageAPIView(APIView):
+    """API for getting all data in the database"""
     def get(self, request, *args, **kwargs):
         hourly_data = (
             Project.objects
@@ -35,7 +37,28 @@ class ProjectHourlyAverageAPIView(APIView):
 
 
 class ProjectOnedayAverageAPIView(APIView):
+    """API for getting data with one day range."""
+    START_EARLY = [1, 2, 3, 4, 8]
+    START_LATE = [5, 6, 7]
     def get(self, request, *args, **kwargs):
+        """Get the data with the predicted result."""
+        params = self.validate_and_parse_params(request)
+        if isinstance(params, Response):
+            return params
+        date, key = params
+        start_datetime, end_datetime = self.get_time_range(date, key)
+        if isinstance(start_datetime, Response):
+            return start_datetime
+        hourly_data = self.get_hourly_data(start_datetime, end_datetime)
+        df, result = self.process_hourly_data(hourly_data)
+        rating, count = model_collection.predict(key, df)
+        result['Passenger_Rating'] = rating
+        result['Passenger_Count'] = count
+        final_result = format_json_output(result)
+        return Response(final_result)
+
+    def validate_and_parse_params(self, request):
+        """Extract query parameters."""
         date_str = request.query_params.get('date')
         key = request.query_params.get('key')
         if not date_str or not key:
@@ -48,21 +71,24 @@ class ProjectOnedayAverageAPIView(APIView):
             key = int(key)
         except ValueError:
             return Response({'error': 'Key must be an integer.'}, status=400)
+        return date, key
 
-        if key in [1, 2, 3, 4, 8]:
+    def get_time_range(self, date, key):
+        """Get time range for each organization."""
+        if key in self.START_EARLY:
             start_hour = 5
-        elif key in [5, 6, 7]:
+        elif key in self.START_LATE:
             start_hour = 6
         else:
             return Response({'error': 'Invalid key provided.'}, status=400)
-
         start_datetime = datetime.combine(date, time(start_hour, 0))
         end_datetime = datetime.combine(date, time(23, 59, 59))
-        queryset = Project.objects.filter(
-            ts__range=(start_datetime, end_datetime),
-        )
+        return start_datetime, end_datetime
 
-        hourly_data = (
+    def get_hourly_data(self, start_datetime, end_datetime):
+        """Get data from database with start time and end time."""
+        queryset = Project.objects.filter(ts__range=(start_datetime, end_datetime))
+        return (
             queryset
             .annotate(hour=TruncHour('ts'))
             .values('hour')
@@ -76,7 +102,17 @@ class ProjectOnedayAverageAPIView(APIView):
             .order_by('hour')
         )
 
-        result = {"Hour":[], "Time_Block":[], "Day_of_Week": [], "temperature_c": [], "humidity": [], "pressure_mb": [], "Datetime": []}
+    def process_hourly_data(self, hourly_data):
+        """Create more columns in dataframe before going to use it to predict values."""
+        result = {
+            "Hour": [],
+            "Time_Block": [],
+            "Day_of_Week": [],
+            "temperature_c": [],
+            "humidity": [],
+            "pressure_mb": [],
+            "Datetime": []
+        }
         for entry in hourly_data:
             hour_dt = entry['hour']
             hour_int = hour_dt.hour
@@ -87,7 +123,6 @@ class ProjectOnedayAverageAPIView(APIView):
             result["humidity"].append(entry["humidity"])
             result["pressure_mb"].append(entry["pressure_mb"])
             result["Datetime"].append(hour_dt)
-        
         df = pd.DataFrame(result)
         df = df.round({
             'temperature_c': 2,
@@ -96,9 +131,4 @@ class ProjectOnedayAverageAPIView(APIView):
         })
         column_order = ["Hour", "Time_Block", "Day_of_Week", "temperature_c", "humidity", "pressure_mb"]
         df = df[column_order]
-        rating, count = model_collection.predict(key, df)
-        for i in range(len(result)):
-            result['Passenger_Rating'] = rating
-            result['Passenger_Count'] = count
-        final_result = format_json_output(result)
-        return Response(final_result)
+        return df, result

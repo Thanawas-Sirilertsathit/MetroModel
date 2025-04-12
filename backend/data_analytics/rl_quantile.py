@@ -55,6 +55,5 @@ class RLQuantileRegressor(PassengerQuantileRegressor):
         X_new = X_new.apply(pd.to_numeric, errors="coerce")
         X_new_scaled = self.scaler.transform(X_new)
         X_new_scaled = sm.add_constant(X_new_scaled, has_constant="add")
-        print(X_new_scaled)
         pred = self.result.predict(X_new_scaled)
         return np.clip(pred, self.MIN, None)
