@@ -1,8 +1,18 @@
 <template>
   <div class="text-center p-4">
-    <h1 class="text-4xl my-2">Detail Page for {{ trainTitle }}</h1>
-    <div class="flex justify-between">
-    <p class="text-xl p-2">{{ trainDescription }}</p>
+    <h1 class="text-4xl my-4">Detail Page for {{ trainTitle }}</h1>
+    <div class="flex justify-between items-center">
+    <p class="text-xl p-2 whitespace-nowrap">{{ trainDescription }}</p>
+    <div class="flex justify-center items-start p-2">
+      <label for="attribute" class="block text-xl mb-1 whitespace-nowrap p-2">Select chart attribute:</label>
+      <select id="attribute" v-model="selectedAttribute" @change="fetchChartData" class="mt-1 p-2 border rounded bg-neutral border-quinternary mb-1">
+        <option value="Passenger_Count">Passenger Count</option>
+        <option value="temperature_c">Temperature (°C)</option>
+        <option value="humidity">Humidity (%)</option>
+        <option value="pressure_mb">Pressure (mb)</option>
+      </select>
+    </div>
+    <label for="attribute" class="block text-xl mb-1 whitespace-nowrap p-2">Select date:</label>
       <VueDatePicker 
       v-model="selectedDate"
       placeholder="Select the date to view number of passengers"
@@ -11,6 +21,7 @@
       :max-date="maxDate"
       :enableTimePicker="false"
       :dark="true"
+      :clearable="false"
       @update:modelValue="fetchChartData" />
     </div>
     <div v-if="chartData" class="my-6">
@@ -59,6 +70,7 @@ export default {
     ];
     const train = blocks.find(block => block.key === id) || { title: "Unknown", description: "No data available" };
     const selectedDate = ref(new Date())
+    const selectedAttribute = ref('Passenger_Count')
     const minDate = new Date('2025-03-01')
     const maxDate = new Date()
     const chartData = ref(null)
@@ -66,7 +78,7 @@ export default {
       responsive: true,
       plugins: {
         legend: { position: 'top' },
-        title: { display: true, text: 'Hourly Weather Metrics' }
+        title: { display: true, text: 'Hourly Weather and Passenger count summary' }
       },
       scales: {
         x: {
@@ -104,13 +116,13 @@ export default {
         const data = await response.data
 
         const labels = data.map(item => item.Hour)
-        const passengerCount = data.map(item => item.Passenger_Count)
+        const passengerCount = data.map(item => item[selectedAttribute.value])
 
         chartData.value = {
           labels,
           datasets: [
             {
-              label: 'Passenger Count',
+              label: selectedAttribute.value.replace(/_/g, ' '),
               data: passengerCount,
               borderColor: '#fcae1e',
               backgroundColor: 'neutral',
@@ -118,6 +130,7 @@ export default {
             }
           ]
         }
+        chartOptions.scales.y.title.text = selectedAttribute.value.replace(/_/g, ' ')
       } catch (err) {
         console.error('Failed to fetch data:', err)
       }
@@ -130,6 +143,7 @@ export default {
         maxDate,
         minDate,
         selectedDate,
+        selectedAttribute,
         fetchChartData,
         chartData,
         chartOptions
