@@ -69,10 +69,28 @@ export default {
         title: { display: true, text: 'Hourly Weather Metrics' }
       },
       scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Time (Hour)',
+            font: {
+              size: 16,
+              weight: 'bold',
+            },
+          },
+        },
         y: {
-          beginAtZero: true
-        }
-      }
+          title: {
+            display: true,
+            text: 'Passenger Count',
+            font: {
+              size: 16,
+              weight: 'bold',
+            },
+          },
+          beginAtZero: true,
+        },
+      },
     }
     const fetchChartData = async () => {
       const formattedDate = selectedDate.value.toISOString().split('T')[0]
