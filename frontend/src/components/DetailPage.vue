@@ -1,18 +1,18 @@
 <template>
   <div class="text-center p-4">
     <h1 class="text-4xl my-4">Detail Page for {{ trainTitle }}</h1>
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center space-x-3 mx-3">
     <p class="text-xl p-2 whitespace-nowrap">{{ trainDescription }}</p>
-    <div class="flex justify-center items-start p-2">
+    <div class="flex justify-center items-start p-1 py-1">
       <label for="attribute" class="block text-xl mb-1 whitespace-nowrap p-2">Select chart attribute:</label>
-      <select id="attribute" v-model="selectedAttribute" @change="fetchChartData" class="mt-1 p-2 border rounded bg-neutral border-quinternary mb-1">
+      <select id="attribute" v-model="selectedAttribute" @change="fetchChartData" class="m-1 p-2 border rounded bg-neutral border-quinternary">
         <option value="Passenger_Count">Passenger Count</option>
         <option value="temperature_c">Temperature (°C)</option>
         <option value="humidity">Humidity (%)</option>
         <option value="pressure_mb">Pressure (mb)</option>
       </select>
     </div>
-    <label for="attribute" class="block text-xl mb-1 whitespace-nowrap p-2">Select date:</label>
+    <label for="attribute" class="block text-xl mb-1 whitespace-nowrap p-1">Select date:</label>
       <VueDatePicker 
       v-model="selectedDate"
       placeholder="Select the date to view number of passengers"
@@ -22,12 +22,13 @@
       :enableTimePicker="false"
       :dark="true"
       :clearable="false"
-      @update:modelValue="fetchChartData" />
+      @update:modelValue="fetchChartData" />    
+      <router-link to="/" class="btn btn-quinternary mt-2">Back to Home</router-link>
     </div>
     <div v-if="chartData" class="my-6">
       <Line :data="chartData" :options="chartOptions" />
     </div>
-    <router-link to="/" class="btn btn-quinternary mt-4">Back to Home</router-link>
+
   </div>
 </template>
 
