@@ -8,5 +8,5 @@ def init_models():
     global model_collection
     model_collection = ModelCollections()
     model_collection.train_all()
-    rate, count = model_collection.predict(2, EXAMPLE_DATA)
+    rate, count = model_collection.predict(8, EXAMPLE_DATA)
     print(f"Passenger rate: {rate} \nPassenger count: {count}")

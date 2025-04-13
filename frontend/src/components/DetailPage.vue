@@ -71,7 +71,7 @@ export default {
       { title: "BTS (Green line)", description: "Service time: 6:00 - 0:00", key: 5 },
       { title: "Yellow line", description: "Service time: 6:00 - 0:00", key: 6 },
       { title: "Pink line", description: "Service time: 6:00 - 0:00", key: 7 },
-      { title: "Overall", description: "Service time: 5:30 - 0:00", key: 8 },
+      { title: "Overall (All train lines)", description: "Service time: 5:30 - 0:00", key: 8 },
     ];
     const train = blocks.find(block => block.key === id) || { title: "Unknown", description: "No data available" };
     const selectedDate = ref(new Date())

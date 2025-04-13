@@ -63,7 +63,7 @@ export default {
         { title: "BTS (Green line)", description: "Service time: 6:00 - 0:00", color: "bg-primary",key:5 },
         { title: "Yellow line (YL)", description: "Service time: 6:00 - 0:00", color: "bg-accent",key:6 },
         { title: "Pink line (PK)", description: "Service time: 6:00 - 0:00", color: "bg-tertiary",key:7 },
-        { title: "Overall", description: "Service time: 5:30 - 0:00", color: "bg-info",key:8 },
+        { title: "Overall (All train lines)", description: "Service time: 5:30 - 0:00", color: "bg-info",key:8 },
       ]);
     return {
       goToDetailPage(id) {

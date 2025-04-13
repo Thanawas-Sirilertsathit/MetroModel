@@ -12,6 +12,8 @@ from data_analytics.mrt_naive import MRTNaiveBayes
 from data_analytics.mrt_quantile import MRTQuantileRegressor
 from data_analytics.bts_naive import BTSNaiveBayes
 from data_analytics.bts_quantile import BTSQuantileRegressor
+from data_analytics.overall_naive import OverallNaiveBayes
+from data_analytics.overall_quantile import OverallQuantileRegressor
 from data_analytics.constant import RATING_MAP
 
 class ModelCollections:
@@ -33,6 +35,8 @@ class ModelCollections:
         self.mrt_qr = MRTQuantileRegressor()
         self.bts_nb = BTSNaiveBayes()
         self.bts_qr = BTSQuantileRegressor()
+        self.o_nb = OverallNaiveBayes()
+        self.o_qr = OverallQuantileRegressor()
         self.model_list = []
         self.initialize_list()
     
@@ -46,6 +50,7 @@ class ModelCollections:
         self.model_list.append({"id":5, "org": "BTS","nb": self.bts_nb, "qr": self.bts_qr})
         self.model_list.append({"id":6, "org": "YL","nb": self.yl_nb, "qr": self.yl_qr})
         self.model_list.append({"id":7, "org": "PK","nb": self.pk_nb, "qr": self.pk_qr})
+        self.model_list.append({"id":8, "org": "Overall","nb": self.o_nb, "qr": self.o_qr})
 
     def train_all(self):
         """Train models for all."""
