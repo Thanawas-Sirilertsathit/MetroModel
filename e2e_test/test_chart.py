@@ -17,86 +17,89 @@ driver = webdriver.Chrome(service=service, options=options)
 port = config("FRONTEND_PORT")
 
 try:
-    # Start driver and go to the website
     driver.get(port)
     time.sleep(3)
-
-    # Wait for the search bar to be present
     wait = WebDriverWait(driver, 10)
     search_input = wait.until(EC.presence_of_element_located(
-    (By.XPATH, "//input[@placeholder='Search for your train line here!']")
+        (By.XPATH, "//input[@placeholder='Search for your train line here!']")
     ))
     time.sleep(3)
-
-    # Type BTS into the search bar
     search_input.send_keys("BTS")
     search_input.send_keys(Keys.RETURN)
     time.sleep(3)
-
-    # Click the view button for BTS organization
     view_button = wait.until(EC.element_to_be_clickable(
         (By.XPATH, "//button[contains(text(), 'View')]")
     ))
     view_button.click()
     time.sleep(3)
 
-    # Find the graph presence in the bts detail page
-    graph = wait.until(EC.presence_of_element_located(
-        (By.TAG_NAME, "canvas")
-    ))
-    time.sleep(3)
-    print("✅ Graph presence found. 1st Test passed.")
+    # Check graph presence
+    try:
+        graph = wait.until(EC.presence_of_element_located((By.TAG_NAME, "canvas")))
+        time.sleep(3)
+        print("✅ Graph presence found. 1st Test passed.")
+    except Exception as e:
+        print("❌ Failed to find graph on detail page. 1st Test failed.", e)
 
-    # Verify the graph X-axis and Y-axis labels
-    x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
-    y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
-    assert x_label.text == "Time (Hour)"
-    assert y_label.text == "Passenger Count"
-    time.sleep(3)
-    print("✅ X and Y axis labels are correct. 2nd Test passed.")
+    # Verify axis labels to match with Passenger Count
+    try:
+        x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
+        y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
+        assert x_label.text == "Time (Hour)"
+        assert y_label.text == "Passenger Count"
+        time.sleep(3)
+        print("✅ X and Y axis labels are correct. 2nd Test passed.")
+    except AssertionError:
+        print(f"❌ Axis label mismatch. Expected Y: 'Passenger Count', got: '{y_label.text}'. 2nd Test failed.")
+    except Exception as e:
+        print("❌ Error checking axis labels. 2nd Test failed.", e)
 
-    # Select the dropdown option to be temperature_c
-    dropdown = wait.until(EC.presence_of_element_located((By.ID, "attribute")))
-    select = Select(dropdown)
-    select.select_by_value("temperature_c")
-    time.sleep(3)
+    # Verify axis labels to match with Temperature
+    try:
+        dropdown = wait.until(EC.presence_of_element_located((By.ID, "attribute")))
+        select = Select(dropdown)
+        select.select_by_value("temperature_c")
+        time.sleep(3)
+        x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
+        y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
+        assert x_label.text == "Time (Hour)"
+        assert y_label.text == "Temperature (°C)"
+        time.sleep(3)
+        print("✅ Y axis changed to Temperature. 3rd Test passed.")
+    except AssertionError:
+        print(f"❌ Axis label mismatch. Expected Y: 'Temperature (°C)', got: '{y_label.text}'. 3rd Test failed.")
+    except Exception as e:
+        print("❌ Error selecting temperature_c or checking labels. 3rd Test failed.", e)
 
-    # Verify the graph X-axis and Y-axis labels after selecting the dropdown option
-    x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
-    y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
-    assert x_label.text == "Time (Hour)"
-    assert y_label.text == "Temperature (°C)"
-    time.sleep(3)
-    print("✅ X and Y axis labels are changed so Y axis label is temperature. 3rd Test passed.")
+    # Verify axis labels to match with Humidity
+    try:
+        select.select_by_value("humidity")
+        time.sleep(3)
+        x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
+        y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
+        assert x_label.text == "Time (Hour)"
+        assert y_label.text == "Humidity (%)"
+        time.sleep(3)
+        print("✅ Y axis changed to Humidity. 4th Test passed.")
+    except AssertionError:
+        print(f"❌ Axis label mismatch. Expected Y: 'Humidity (%)', got: '{y_label.text}'. 4th Test failed.")
+    except Exception as e:
+        print("❌ Error selecting humidity or checking labels. 4th Test failed.", e)
 
-    # Select the dropdown option to be humidity
-    dropdown = wait.until(EC.presence_of_element_located((By.ID, "attribute")))
-    select = Select(dropdown)
-    select.select_by_value("humidity")
-    time.sleep(3)
-
-    # Verify the graph X-axis and Y-axis labels after selecting the dropdown option
-    x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
-    y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
-    assert x_label.text == "Time (Hour)"
-    assert y_label.text == "Humidity (%)"
-    time.sleep(3)
-    print("✅ X and Y axis labels are changed so Y axis label is humidity. 4th Test passed.")
-
-    # Select the dropdown option to be pressure_mb
-    dropdown = wait.until(EC.presence_of_element_located((By.ID, "attribute")))
-    select = Select(dropdown)
-    select.select_by_value("pressure_mb")
-    time.sleep(3)
-
-    # Verify the graph X-axis and Y-axis labels after selecting the dropdown option
-    x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
-    y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
-    assert x_label.text == "Time (Hour)"
-    assert y_label.text == "Pressure (mb)"
-    time.sleep(3)
-    print("✅ X and Y axis labels are changed so Y axis label is pressure. 5th Test passed.")
+    # Verify axis labels to match with Pressure
+    try:
+        select.select_by_value("pressure_mb")
+        time.sleep(3)
+        x_label = wait.until(EC.presence_of_element_located((By.ID, "x-label")))
+        y_label = wait.until(EC.presence_of_element_located((By.ID, "y-label")))
+        assert x_label.text == "Time (Hour)"
+        assert y_label.text == "Pressure (mb)"
+        time.sleep(3)
+        print("✅ Y axis changed to Pressure. 5th Test passed.")
+    except AssertionError:
+        print(f"❌ Axis label mismatch. Expected Y: 'Pressure (mb)', got: '{y_label.text}'. 5th Test failed.")
+    except Exception as e:
+        print("❌ Error selecting pressure_mb or checking labels. 5th Test failed.", e)
 
 finally:
-    # Close the webdriver
     driver.quit()
