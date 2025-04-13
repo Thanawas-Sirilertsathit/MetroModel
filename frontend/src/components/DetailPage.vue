@@ -27,6 +27,10 @@
     </div>
     <div v-if="chartData" class="my-6">
       <Line :data="chartData" :options="chartOptions" />
+      <div class="flex justify-between items-center">
+      <p id="x-label" class="text-neutral">{{ chartOptions.scales.x.title.text }}</p>
+      <p id="y-label" class="text-neutral">{{ chartOptions.scales.y.title.text }}</p>
+      </div>
     </div>
 
   </div>
@@ -74,8 +78,14 @@ export default {
     const selectedAttribute = ref('Passenger_Count')
     const minDate = new Date('2025-03-01')
     const maxDate = new Date()
+    const yAxisLabels = {
+      Passenger_Count: 'Passenger Count',
+      temperature_c: 'Temperature (°C)',
+      humidity: 'Humidity (%)',
+      pressure_mb: 'Pressure (mb)',
+    };
     const chartData = ref(null)
-    const chartOptions = {
+    const chartOptions = ref({
       responsive: true,
       plugins: {
         legend: { position: 'top' },
@@ -104,7 +114,7 @@ export default {
           beginAtZero: true,
         },
       },
-    }
+    });
     const fetchChartData = async () => {
       const formattedDate = selectedDate.value.toISOString().split('T')[0]
       try {
@@ -131,7 +141,19 @@ export default {
             }
           ]
         }
-        chartOptions.scales.y.title.text = selectedAttribute.value.replace(/_/g, ' ')
+        chartOptions.value = {
+          ...chartOptions.value,
+          scales: {
+            ...chartOptions.value.scales,
+            y: {
+              ...chartOptions.value.scales.y,
+              title: {
+                ...chartOptions.value.scales.y.title,
+                text: yAxisLabels[selectedAttribute.value] || selectedAttribute.value.replace(/_/g, ' ')
+              }
+            }
+          }
+        };
       } catch (err) {
         console.error('Failed to fetch data:', err)
       }
