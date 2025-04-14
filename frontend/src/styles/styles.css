@@ -144,3 +144,14 @@
 .btn-quinternary:active {
   transform: scale(0.95);
 }
+
+/* Custom loading circle */
+.loader {
+  border-top-color: var(--quinternary);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

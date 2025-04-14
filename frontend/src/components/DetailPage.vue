@@ -25,15 +25,18 @@
       @update:modelValue="fetchChartData" />    
       <router-link to="/" class="btn btn-quinternary mt-2">Back to Home</router-link>
     </div>
-    <div v-if="chartData" class="my-6">
+    <div v-if="loading" class="flex justify-center items-center my-6 space-x-4">
+      <p class="text-xl p-2 whitespace-nowrap">Now processing...</p>
+      <div class="loader ease-linear rounded-full border-8 border-primary h-16 w-16"></div>
+    </div>
+    <div v-else-if="chartData" class="my-6">
       <Line :data="chartData" :options="chartOptions" />
       <div class="flex justify-between items-center">
       <p id="x-label" class="text-neutral">{{ chartOptions.scales.x.title.text }}</p>
       <p id="y-label" class="text-neutral">{{ chartOptions.scales.y.title.text }}</p>
-      </div>
     </div>
-
-  </div>
+</div>
+</div>
 </template>
 
 <script>
@@ -78,6 +81,7 @@ export default {
     const selectedAttribute = ref('Passenger_Count')
     const minDate = new Date('2025-03-01')
     const maxDate = new Date()
+    const loading = ref(false)
     const yAxisLabels = {
       Passenger_Count: 'Passenger Count',
       temperature_c: 'Temperature (°C)',
@@ -90,6 +94,17 @@ export default {
       plugins: {
         legend: { position: 'top' },
         title: { display: true, text: 'Hourly Weather and Passenger count summary' }
+      },
+      animation: {
+        duration: 1000,
+        easing: 'easeOutQuart',
+        y: {
+          from: (ctx) => {
+            if (ctx.type === 'data') {
+              return ctx.chart.scales.y.getPixelForValue(0);
+            }
+          }
+        }
       },
       scales: {
         x: {
@@ -116,6 +131,7 @@ export default {
       },
     });
     const fetchChartData = async () => {
+      loading.value = true
       const formattedDate = selectedDate.value.toISOString().split('T')[0]
       try {
         const response = await apiClient.get('/api/oneday/', {
@@ -156,6 +172,8 @@ export default {
         };
       } catch (err) {
         console.error('Failed to fetch data:', err)
+      } finally {
+        loading.value = false
       }
     }
     onMounted(fetchChartData)
@@ -169,7 +187,8 @@ export default {
         selectedAttribute,
         fetchChartData,
         chartData,
-        chartOptions
+        chartOptions,
+        loading
      };
   },
 };
