@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "vitest"
+    "test": "vitest",
+    "vitest": "vitest"
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^9.0.3",
