@@ -1,2 +1,56 @@
-# Metro Model
-A web application that integrates with Data Analytics models for predicting number of passengers for each train line in Bangkok for commuters in Bangkok.
+# Metro Model (Weather x Bangkok train lines)
+
+[![Run Vitest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml)
+
+A web application that integrates with Data Analytics models for predicting number of passengers for each train line in Bangkok for commuters in Bangkok. The data that we work on is from March 2025 upto now using sensors to collect weather data every hour.
+
+## Data Analytics models
+- Naive Bayes to predict Passenger Rating (Very Low, Low, Moderate, Crowded, Dense and Very Dense)
+- Quantile Regression receives output from Naive Bayes and predicts the number of passenger in that hour.
+
+## Sensors for Data acquisition
+- DHT-11 temperature and humidity sensor
+- BMP280 temperature and pressure sensor
+
+## Data that we used
+- Historical weather data from [Weatherapi](https://www.weatherapi.com/history/q/bangkok-2366981?loc=2366981)
+- Ministry of transportation data for number of passenger records since January 2021 upto Febuary 2025
+- Data from sensors that we acquired
+
+## How to run
+**Follow the instructions in [Installation guide](INSTALLATION.md) if this is your first time.**
+
+1. Activate Virtual Environment
+
+      **macOS/Linux**
+
+      ```bash
+      source .venv/bin/activate
+      ```
+   
+      **Windows**
+
+      ```bash
+      .venv\Scripts\activate
+      ```
+
+2. Backend part
+    - Navigate to the backend directory (`\MetroModel\backend`)
+    - Open the terminal and run this command
+      ```bash
+      python manage.py runserver
+      ```
+
+3. Frontend part
+    - Navigate to the backend directory (`\MetroModel\frontend`)
+    - Open the terminal and run this command
+      ```bash
+      npm run serve
+      ```
+
+4. Connect to site (Default Host for frontend is `127.0.0.1:8080`)
+
+5. To stop the application press Ctrl+C in the terminal then deactivate the venv:
+      ```bash
+      deactivate
+      ```
