@@ -26,4 +26,5 @@ jobs:
 
       - name: Run unittests
         run: |
-          python -m unittest discover backend/tests
+          python -m unittest discover tests
+        working-directory: backend
