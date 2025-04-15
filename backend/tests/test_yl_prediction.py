@@ -1,16 +1,16 @@
 import unittest
-from data_analytics.srt_naive import SRTNaiveBayes
-from data_analytics.srt_quantile import SRTQuantileRegressor
+from data_analytics.yl_naive import YLNaiveBayes
+from data_analytics.yl_quantile import YLQuantileRegressor
 from data_analytics.constant import RATING_MAP, EXAMPLE_DATA
 
 class TestSRTPrediction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.nb_model = SRTNaiveBayes()
+        cls.nb_model = YLNaiveBayes()
         cls.df = cls.nb_model.preprocess()
         cls.nb_model.train(cls.df)
 
-        cls.qr_model = SRTQuantileRegressor(quantile=0.48)
+        cls.qr_model = YLQuantileRegressor(quantile=0.56)
         X_train, X_test, y_train, y_test = cls.qr_model.preprocess(cls.df, RATING_MAP)
         cls.qr_model.train(X_train, y_train, X_test, y_test)
 
@@ -27,7 +27,7 @@ class TestSRTPrediction(unittest.TestCase):
         predicted_ratings = self.nb_model.predict(EXAMPLE_DATA.copy())
         mapped_df = self.qr_model.rating_map(EXAMPLE_DATA.copy(), predicted_ratings, RATING_MAP)
 
-        # Manually patch label encoding for safety during test
+
         for col, le in self.qr_model.label_encoders.items():
             if col in mapped_df.columns:
                 mapped_df[col] = le.transform(
