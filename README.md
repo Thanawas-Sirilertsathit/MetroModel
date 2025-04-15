@@ -1,6 +1,6 @@
 # Metro Model (Weather x Bangkok train lines)
 
-[![Run Vitest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml)
+[![Run Vitest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml) [![Run Unittest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/pytest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/pytest.yml)
 
 A web application that integrates with Data Analytics models for predicting number of passengers for each train line in Bangkok for commuters in Bangkok. The data that we work on is from March 2025 upto now using sensors to collect weather data every hour.
 
