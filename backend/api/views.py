@@ -3,19 +3,11 @@ from django.db.models import Avg
 from django.db.models.functions import TruncHour
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import SampleDataSerializer, ProjectSerializer
+from rest_framework import status
 from .models import Project
 from datetime import datetime, time
 from .model_registry import model_collection
 from .utils import get_time_block, format_json_output
-
-class SampleDataView(APIView):
-    """Example template for API"""
-    def get(self, request):
-        data = {"message": "I am Rest API!"}
-        serializer = SampleDataSerializer(data)
-        return Response(serializer.data)
-
 
 class ProjectHourlyAverageAPIView(APIView):
     """API for getting all data in the database"""
@@ -132,3 +124,46 @@ class ProjectOnedayAverageAPIView(APIView):
         column_order = ["Hour", "Time_Block", "Day_of_Week", "temperature_c", "humidity", "pressure_mb"]
         df = df[column_order]
         return df, result
+
+class ProjectPredictionAPIView(APIView):
+    """POST API for predicting values based on input features."""
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        required_fields = ["temperature_c", "humidity", "pressure_mb", "day_of_week", "time", "key"]
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return Response(
+                {"error": f"Missing fields: {', '.join(missing_fields)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            temperature = float(data["temperature_c"])
+            humidity = float(data["humidity"])
+            pressure = float(data["pressure_mb"])
+            day_of_week = data["day_of_week"]
+            time_obj = datetime.strptime(data["time"], "%H:%M").time()
+            hour = time_obj.hour
+            time_block = get_time_block(hour)
+            key = int(data["key"])
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        input_dict = {
+            "Hour": [hour],
+            "Time_Block": [time_block],
+            "Day_of_Week": [day_of_week],
+            "temperature_c": [temperature],
+            "humidity": [humidity],
+            "pressure_mb": [pressure]
+        }
+        df = pd.DataFrame(input_dict)
+        try:
+            rating, count = model_collection.predict(key, df)
+        except Exception as e:
+            return Response({"error": f"Prediction failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({
+            "Passenger_Rating": rating,
+            "Passenger_Count": count
+        })

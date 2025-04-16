@@ -4,6 +4,7 @@
   </div>
   <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-2 md:space-y-0 md:space-x-4 mx-4 my-4">
   <p class="text-lg whitespace-nowrap">Our website provides data from March up to today number of passengers in 7 train lines in Bangkok.</p>
+  <button class="btn-quinternary" @click="goToPredictPage()">Custom Prediction</button>
   <div class="w-1/2 ml-auto">
     <input
       v-model="searchQuery"
@@ -68,6 +69,9 @@ export default {
     return {
       goToDetailPage(id) {
         router.push(`/detail/${id}`);
+      },
+      goToPredictPage() {
+        router.push('/predict');
       },
       blocks,
       searchQuery,
