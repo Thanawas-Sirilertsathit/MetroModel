@@ -17,6 +17,11 @@ A web application that integrates with Data Analytics models for predicting numb
 - Ministry of transportation data for number of passenger records since January 2021 upto Febuary 2025
 - Data from sensors that we acquired
 
+## Testing
+- [Test Plan](../../wiki/Test-Plan)
+- [Test Scenarios](../../wiki/Test-Scenarios)
+- [Test Cases](../../wiki/Test-Cases)
+
 ## How to run
 **Follow the instructions in [Installation guide](INSTALLATION.md) if this is your first time.**
 
