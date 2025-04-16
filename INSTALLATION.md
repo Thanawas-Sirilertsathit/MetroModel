@@ -33,7 +33,7 @@ Rename or copy the `sample.env` to `.env` inside the `backend/` folder and updat
 
 ```env
 DB_HOST=iot.cpe.ku.ac.th
-DB_NAME=project
+DB_NAME=b66..
 DB_USER=your_database_user
 DB_PASSWORD=your_database_password
 ```
