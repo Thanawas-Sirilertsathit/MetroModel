@@ -49,7 +49,9 @@ describe('HomePage.vue', () => {
     const wrapper = mount(HomePage, {
       global: { plugins: [router] }
     })
-    const viewButton = wrapper.find('button')
+    const buttons = wrapper.findAll('button')
+    const viewButton = buttons.find(btn => btn.text() === 'View')
+    expect(viewButton).toBeTruthy()
     await viewButton.trigger('click')
     expect(pushSpy).toHaveBeenCalledWith('/detail/1')
   })
