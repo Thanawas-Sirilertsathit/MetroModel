@@ -48,9 +48,10 @@
       </div>
   
       <button @click="predict" class="btn btn-primary m-4">Predict</button>
-  
-      <div v-if="loading" class="my-4">
-        <p class="text-xl">Predicting...</p>
+      <router-link to="/" class="btn btn-quinternary mt-4">Back to Home</router-link>  
+      <div v-if="loading" class="flex justify-center items-center my-6 space-x-4">
+        <p class="text-xl p-2 whitespace-nowrap">Now predicting...</p>
+        <div class="loader ease-linear rounded-full border-8 border-primary h-16 w-16"></div>
       </div>
   
       <div v-if="result" class="my-4 bg-secondary rounded-xl p-4 text-left">
@@ -58,7 +59,7 @@
         <p class="text-lg"><strong>Predicted Passenger Count:</strong> {{ result.Passenger_Count[0] }}</p>
       </div>
   
-      <router-link to="/" class="btn btn-quinternary mt-4">Back to Home</router-link>
+
     </div>
   </template>
   
