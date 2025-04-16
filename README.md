@@ -2,7 +2,7 @@
 
 [![Run Vitest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml) [![Run Unittest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/pytest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/pytest.yml)
 
-A web application that integrates with Data Analytics models for predicting number of passengers for each train line in Bangkok for commuters in Bangkok. The data that we work on is from March 2025 upto now using sensors to collect weather data every hour.
+A web application that integrates with Data Analytics models for predicting number of passengers for each train line in Bangkok for commuters in Bangkok. The data that we work on is from March 2025 up to now using sensors to collect weather data every hour. User can predict the value by using our custom predict by input values manually.
 
 ## Data Analytics models
 - Naive Bayes to predict Passenger Rating (Very Low, Low, Moderate, Crowded, Dense and Very Dense)
@@ -16,6 +16,16 @@ A web application that integrates with Data Analytics models for predicting numb
 - Historical weather data from [Weatherapi](https://www.weatherapi.com/history/q/bangkok-2366981?loc=2366981)
 - Ministry of transportation data for number of passenger records since January 2021 upto Febuary 2025
 - Data from sensors that we acquired
+
+## Testing
+- [Test Plan](../../wiki/Test-Plan)
+- [Test Scenarios](../../wiki/Test-Scenarios)
+- [Test Cases](../../wiki/Test-Cases)
+
+## Pages
+- HomePage: Show all train lines with search bar to filter train lines
+- DetailPage: Graph showing passenger count or other attributes
+- PredictPage: Custom prediction from manual inputs
 
 ## How to run
 **Follow the instructions in [Installation guide](INSTALLATION.md) if this is your first time.**
