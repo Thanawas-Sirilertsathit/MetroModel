@@ -10,7 +10,7 @@
               {{ train.title }}
             </option>
           </select>
-          <p v-if="selectedTrain" class="text-left text-sm text-neutral mt-1">
+          <p v-if="selectedTrain" class="text-left text-sm mt-1">
             Service time: {{ selectedTrain.description }}
           </p>
         </div>
