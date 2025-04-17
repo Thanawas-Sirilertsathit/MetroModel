@@ -4,6 +4,10 @@
 
 A web application that integrates with Data Analytics models for predicting number of passengers for each train line in Bangkok for commuters in Bangkok. The data that we work on is from March 2025 up to now using sensors to collect weather data every hour. User can predict the value by using our custom predict by input values manually.
 
+## Objectives
+- Focus on commuters who use train lines in Bangkok to travel.
+- Become a decision making tool for commuters who want to travel without crowding condition.
+
 ## Data Analytics models
 - Naive Bayes to predict Passenger Rating (Very Low, Low, Moderate, Crowded, Dense and Very Dense)
 - Quantile Regression receives output from Naive Bayes and predicts the number of passenger in that hour.
