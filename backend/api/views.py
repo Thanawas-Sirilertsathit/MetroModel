@@ -8,9 +8,15 @@ from .models import Project
 from datetime import datetime, time
 from .model_registry import model_collection
 from .utils import get_time_block, format_json_output
+from .serializers import OneDayResultSerializer, ShortHourlySerializer, PredictionInputSerializer, PredictionOutputSerializer
+from drf_spectacular.utils import extend_schema
 
 class ProjectHourlyAverageAPIView(APIView):
     """API for getting all data in the database but without prediction"""
+    @extend_schema(
+        responses=ShortHourlySerializer(many=True),
+        description="Returns all hourly-aggregated records in the database without prediction."
+    )
     def get(self, request, *args, **kwargs):
         """Get request for retrieving all data in the database without prediction."""
         hourly_data = (
@@ -33,6 +39,10 @@ class ProjectOnedayAverageAPIView(APIView):
     """API for getting data with one day range."""
     START_EARLY = [1, 2, 3, 4, 8]
     START_LATE = [5, 6, 7]
+    @extend_schema(
+        responses=OneDayResultSerializer,
+        description="Returns averaged hourly data for the day, including predicted passenger rating and count. Requires query parameters (key and date)."
+    )
     def get(self, request, *args, **kwargs):
         """Get the data with the predicted result using query parameter (key and date)."""
         params = self.validate_and_parse_params(request)
@@ -128,6 +138,11 @@ class ProjectOnedayAverageAPIView(APIView):
 
 class ProjectPredictionAPIView(APIView):
     """POST API for predicting values based on input features."""
+    @extend_schema(
+        request=PredictionInputSerializer,
+        responses=PredictionOutputSerializer,
+        description="Predicts passenger rating and count from weather, key and time inputs. All required data: temperature_c, humidity, pressure_mb, day_of_week, time and key."
+    )
     def post(self, request, *args, **kwargs):
         """Post request for predicting values with inputs (temperature_c, humidity, pressure_mb, day_of_week, time and key)."""
         data = request.data
