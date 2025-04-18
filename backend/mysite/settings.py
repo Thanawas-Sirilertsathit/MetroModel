@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',  
     'api',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,6 +127,22 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'MetroModel',
+    'DESCRIPTION': 'API for average hourly weather data, daily summary, and prediction of passenger count.',
+    'VERSION': '1.0.0',
+    'CONTACT': {
+        'name': 'MetroModel Github Repository',
+        'member 1': 'Thanawas Sirilertsathit 6610545308',
+        'member 2': 'Sorasit Kateratorn 6610545944',
+        'url': 'https://github.com/Thanawas-Sirilertsathit/MetroModel.git',
+    },
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

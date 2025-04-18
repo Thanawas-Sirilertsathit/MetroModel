@@ -11,3 +11,4 @@ seaborn==0.13.2
 statsmodels==0.14.4
 django-cors-headers >=4.4
 selenium==4.31.0
+drf-spectacular==0.28.0

@@ -10,8 +10,9 @@ from .model_registry import model_collection
 from .utils import get_time_block, format_json_output
 
 class ProjectHourlyAverageAPIView(APIView):
-    """API for getting all data in the database"""
+    """API for getting all data in the database but without prediction"""
     def get(self, request, *args, **kwargs):
+        """Get request for retrieving all data in the database without prediction."""
         hourly_data = (
             Project.objects
             .annotate(hour=TruncHour('ts'))
@@ -33,7 +34,7 @@ class ProjectOnedayAverageAPIView(APIView):
     START_EARLY = [1, 2, 3, 4, 8]
     START_LATE = [5, 6, 7]
     def get(self, request, *args, **kwargs):
-        """Get the data with the predicted result."""
+        """Get the data with the predicted result using query parameter (key and date)."""
         params = self.validate_and_parse_params(request)
         if isinstance(params, Response):
             return params
@@ -128,6 +129,7 @@ class ProjectOnedayAverageAPIView(APIView):
 class ProjectPredictionAPIView(APIView):
     """POST API for predicting values based on input features."""
     def post(self, request, *args, **kwargs):
+        """Post request for predicting values with inputs (temperature_c, humidity, pressure_mb, day_of_week, time and key)."""
         data = request.data
         required_fields = ["temperature_c", "humidity", "pressure_mb", "day_of_week", "time", "key"]
         missing_fields = [field for field in required_fields if field not in data]
