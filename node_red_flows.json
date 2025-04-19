@@ -1,0 +1,1150 @@
+[
+    {
+        "id": "1d560d2bc0f0495b",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a964229e61867da3",
+        "type": "mqtt in",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "topic": "b6610545308/team_project",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "c853c9f9c6ef1739",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "e2837e939221833f",
+                "165db99268f71970",
+                "57f8c11954253af7",
+                "1cb5a9b315ee7a1f"
+            ]
+        ]
+    },
+    {
+        "id": "6c9a40f1d3608e0a",
+        "type": "mysql",
+        "z": "1d560d2bc0f0495b",
+        "mydb": "4690a1d485eff638",
+        "name": "",
+        "x": 570,
+        "y": 100,
+        "wires": [
+            [
+                "ff96cd088d93cf8d",
+                "b45d82955bebf732"
+            ]
+        ]
+    },
+    {
+        "id": "e2837e939221833f",
+        "type": "template",
+        "z": "1d560d2bc0f0495b",
+        "name": "Insert",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "insert into project (lat,lon,temperature,humidity,pressure) values ({{payload.lat}},{{payload.lon}},{{payload.temp}},{{payload.humid}},{{payload.pressure}});",
+        "output": "str",
+        "x": 370,
+        "y": 100,
+        "wires": [
+            [
+                "6c9a40f1d3608e0a"
+            ]
+        ]
+    },
+    {
+        "id": "ff96cd088d93cf8d",
+        "type": "debug",
+        "z": "1d560d2bc0f0495b",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "960f7ab963e26773",
+        "type": "mysql",
+        "z": "1d560d2bc0f0495b",
+        "d": true,
+        "mydb": "4690a1d485eff638",
+        "name": "",
+        "x": 370,
+        "y": 300,
+        "wires": [
+            [
+                "9f935f8919944c3c",
+                "1667011869fe20b5",
+                "ee0c133bc4845b60"
+            ]
+        ]
+    },
+    {
+        "id": "860eb26203cf88ae",
+        "type": "inject",
+        "z": "1d560d2bc0f0495b",
+        "name": "Temp data group by",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 12 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT  DATE_FORMAT(ts, '%Y-%m-%d %H:00:00') AS hour,   AVG(temperature) AS avg_temp, MIN(temperature) AS min_temp, MAX(temperature) AS max_temp FROM     project GROUP BY     hour ORDER BY     hour;",
+        "x": 160,
+        "y": 300,
+        "wires": [
+            [
+                "960f7ab963e26773"
+            ]
+        ]
+    },
+    {
+        "id": "165db99268f71970",
+        "type": "change",
+        "z": "1d560d2bc0f0495b",
+        "name": "Get humidity",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.humid",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "5dd356b3e2746e18"
+            ]
+        ]
+    },
+    {
+        "id": "57f8c11954253af7",
+        "type": "change",
+        "z": "1d560d2bc0f0495b",
+        "name": "Get temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.temp",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "6e7d3da613f520d4"
+            ]
+        ]
+    },
+    {
+        "id": "6e7d3da613f520d4",
+        "type": "ui_gauge",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "Celcius",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 610,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "5dd356b3e2746e18",
+        "type": "ui_gauge",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "Percent",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 620,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c6949086eee30d87",
+        "type": "debug",
+        "z": "1d560d2bc0f0495b",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "fd695427fad52dc2",
+        "type": "mysql",
+        "z": "1d560d2bc0f0495b",
+        "d": true,
+        "mydb": "4690a1d485eff638",
+        "name": "",
+        "x": 370,
+        "y": 340,
+        "wires": [
+            [
+                "b92156b4963bf816",
+                "0b26b0eeac4e5606",
+                "8044e8e0645eb127"
+            ]
+        ]
+    },
+    {
+        "id": "db08383119c011c1",
+        "type": "inject",
+        "z": "1d560d2bc0f0495b",
+        "name": "Humidity data group by",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 12 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT    DATE_FORMAT(ts, '%Y-%m-%d %H:00:00') AS hour,   AVG(humidity) AS avg_humid,   MIN(humidity) AS min_humid,   MAX(humidity) AS max_humid FROM     project GROUP BY     hour ORDER BY     hour;",
+        "x": 170,
+        "y": 340,
+        "wires": [
+            [
+                "fd695427fad52dc2"
+            ]
+        ]
+    },
+    {
+        "id": "13c477964f0537fa",
+        "type": "debug",
+        "z": "1d560d2bc0f0495b",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "9f935f8919944c3c",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 8",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Temperature\",\n        payload: row.avg_temp,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 320,
+        "wires": [
+            [
+                "c6949086eee30d87",
+                "a5a70db3589ff227"
+            ]
+        ]
+    },
+    {
+        "id": "b92156b4963bf816",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 9",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Humidity\",\n        payload: row.avg_humid,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 460,
+        "wires": [
+            [
+                "13c477964f0537fa",
+                "ae0e8889b057d39c"
+            ]
+        ]
+    },
+    {
+        "id": "1667011869fe20b5",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 10",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Temperature\",\n        payload: row.min_temp,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 360,
+        "wires": [
+            [
+                "c6949086eee30d87",
+                "31bacc2097af58ec"
+            ]
+        ]
+    },
+    {
+        "id": "ee0c133bc4845b60",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 11",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Temperature\",\n        payload: row.max_temp,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 400,
+        "wires": [
+            [
+                "c6949086eee30d87",
+                "8ef7def02d0e7ebf"
+            ]
+        ]
+    },
+    {
+        "id": "0b26b0eeac4e5606",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 12",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Humidity\",\n        payload: row.min_humid,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 500,
+        "wires": [
+            [
+                "13c477964f0537fa",
+                "c6a1e1f763e7afde"
+            ]
+        ]
+    },
+    {
+        "id": "8044e8e0645eb127",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 13",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Humidity\",\n        payload: row.max_humid,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 540,
+        "wires": [
+            [
+                "13c477964f0537fa",
+                "a9b43e0e322555a6"
+            ]
+        ]
+    },
+    {
+        "id": "836ec23e0958e3ef",
+        "type": "ui_text",
+        "z": "1d560d2bc0f0495b",
+        "group": "2768bb3440ebf32a",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Latest report",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1090,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b45d82955bebf732",
+        "type": "template",
+        "z": "1d560d2bc0f0495b",
+        "name": "Get latest timestamp",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "select ts from project order by ts desc limit 1;",
+        "output": "str",
+        "x": 600,
+        "y": 40,
+        "wires": [
+            [
+                "d4cffa4d7c88da8a"
+            ]
+        ]
+    },
+    {
+        "id": "d4cffa4d7c88da8a",
+        "type": "mysql",
+        "z": "1d560d2bc0f0495b",
+        "mydb": "4690a1d485eff638",
+        "name": "",
+        "x": 810,
+        "y": 40,
+        "wires": [
+            [
+                "7500047d1196fb9b"
+            ]
+        ]
+    },
+    {
+        "id": "7500047d1196fb9b",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 14",
+        "func": "let rows = msg.payload;\nlet date = rows.ts\nlet formattedDate = new Intl.DateTimeFormat('en-US', {\n    timeZone: 'Asia/Bangkok',\n    year: 'numeric',\n    month: '2-digit',\n    day: '2-digit',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: true\n}).format(date);\nnode.send({\n        topic: \"Temperature\",\n        payload: formattedDate\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 100,
+        "wires": [
+            [
+                "836ec23e0958e3ef"
+            ]
+        ]
+    },
+    {
+        "id": "a5a70db3589ff227",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature chart (Average)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1020,
+        "y": 160,
+        "wires": [
+            []
+        ],
+        "inputLabels": [
+            "temp"
+        ]
+    },
+    {
+        "id": "31bacc2097af58ec",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature chart (Min)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 990,
+        "y": 240,
+        "wires": [
+            []
+        ],
+        "inputLabels": [
+            "temp"
+        ]
+    },
+    {
+        "id": "8ef7def02d0e7ebf",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature chart (Max)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 970,
+        "y": 280,
+        "wires": [
+            []
+        ],
+        "inputLabels": [
+            "temp"
+        ]
+    },
+    {
+        "id": "ae0e8889b057d39c",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Humidity chart (Average)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 910,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c6a1e1f763e7afde",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Humidity chart (Min)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 900,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9b43e0e322555a6",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Humidity chart (Max)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 900,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1cb5a9b315ee7a1f",
+        "type": "change",
+        "z": "1d560d2bc0f0495b",
+        "name": "Get pressure",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.pressure",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "61f33926aa2dcea7"
+            ]
+        ]
+    },
+    {
+        "id": "61f33926aa2dcea7",
+        "type": "ui_gauge",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Pressure",
+        "label": "millibar",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "3000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 580,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4ca56e74567df56c",
+        "type": "inject",
+        "z": "1d560d2bc0f0495b",
+        "name": "Pressure data group by",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 12 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT    DATE_FORMAT(ts, '%Y-%m-%d %H:00:00') AS hour,   AVG(pressure) AS avg_press,   MIN(pressure) AS min_press,   MAX(pressure) AS max_press FROM     project GROUP BY     hour ORDER BY     hour;",
+        "x": 170,
+        "y": 380,
+        "wires": [
+            [
+                "bf173bdf347668c8"
+            ]
+        ]
+    },
+    {
+        "id": "bf173bdf347668c8",
+        "type": "mysql",
+        "z": "1d560d2bc0f0495b",
+        "d": true,
+        "mydb": "4690a1d485eff638",
+        "name": "",
+        "x": 370,
+        "y": 380,
+        "wires": [
+            [
+                "72fb864a3ad9028f",
+                "bcc2a31fa9905ce6",
+                "1894cfe0b9a1ed2c"
+            ]
+        ]
+    },
+    {
+        "id": "72fb864a3ad9028f",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 15",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Pressure\",\n        payload: row.avg_press,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 520,
+        "wires": [
+            [
+                "fbbb2aa490658833",
+                "29cb59a3a5330b20"
+            ]
+        ]
+    },
+    {
+        "id": "bcc2a31fa9905ce6",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 16",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Pressure\",\n        payload: row.min_press,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 560,
+        "wires": [
+            [
+                "9a82bc81a31d5d45",
+                "29cb59a3a5330b20"
+            ]
+        ]
+    },
+    {
+        "id": "1894cfe0b9a1ed2c",
+        "type": "function",
+        "z": "1d560d2bc0f0495b",
+        "name": "function 17",
+        "func": "let rows = msg.payload;\n\nrows.forEach(row => {\n    node.send({\n        topic: \"Pressure\",\n        payload: row.max_press,\n        timestamp: new Date(row.hour).getTime()\n    });\n});\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 600,
+        "wires": [
+            [
+                "e76084f8619d4e4f",
+                "29cb59a3a5330b20"
+            ]
+        ]
+    },
+    {
+        "id": "fbbb2aa490658833",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Pressure chart (Average)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 750,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a82bc81a31d5d45",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Pressure chart (Min)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 740,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e76084f8619d4e4f",
+        "type": "ui_chart",
+        "z": "1d560d2bc0f0495b",
+        "name": "",
+        "group": "2768bb3440ebf32a",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Pressure chart (Max)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "3",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 740,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "29cb59a3a5330b20",
+        "type": "debug",
+        "z": "1d560d2bc0f0495b",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "c853c9f9c6ef1739",
+        "type": "mqtt-broker",
+        "name": "KU CPE Broker",
+        "broker": "iot.cpe.ku.ac.th",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4690a1d485eff638",
+        "type": "MySQLdatabase",
+        "name": "KU DB",
+        "host": "iot.cpe.ku.ac.th",
+        "port": "3306",
+        "db": "b6610545308",
+        "tz": "+07:00",
+        "charset": "UTF8"
+    },
+    {
+        "id": "2768bb3440ebf32a",
+        "type": "ui_group",
+        "name": "Project",
+        "tab": "5d6d1ee643949056",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5d6d1ee643949056",
+        "type": "ui_tab",
+        "name": "Project",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
