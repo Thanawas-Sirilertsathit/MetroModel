@@ -31,6 +31,14 @@ A web application that integrates with Data Analytics models for predicting numb
 - DetailPage: Graph showing passenger count or other attributes
 - PredictPage: Custom prediction from manual inputs
 
+## Current features
+- Predict passenger congestion from manually input data
+- Predict passenger congestion from sensor data and historical weather data then show as graph
+
+## Staged Release (Future features)
+- Get weather forecast data from future and predict passenger congestion
+- Prescriptive analysis for passenger data (Analyze when you should go out using the train line)
+
 ## How to run
 **Follow the instructions in [Installation guide](INSTALLATION.md) if this is your first time.**
 
