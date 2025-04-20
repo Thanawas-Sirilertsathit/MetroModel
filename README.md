@@ -33,7 +33,7 @@ A web application that integrates with Data Analytics models for predicting numb
 
 ## Current features
 - Predict passenger congestion from manually input data
-- Predict passenger congestion from sensor data and historical weather data then show as graph
+- Predict passenger congestion from sensor data and historical weather data then show as graph (Past up to Present)
 
 ## Staged Release (Future features)
 - Get weather forecast data from future and predict passenger congestion
