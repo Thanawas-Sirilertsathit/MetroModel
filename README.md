@@ -41,7 +41,7 @@ A web application that integrates with Data Analytics models for predicting numb
 
 ## NodeMCU part and Node-red
 * Follow this guide line [NodeMCU guideline](NODEMCU.md).
-* Use this code in Node-red to create a flow [Node-red code](node-red-flows.json).
+* Use this code in Node-red to create a flow [Node-red code](node_red_flows.json).
 
 ## How to run
 **Follow the instructions in [Installation guide](INSTALLATION.md) if this is your first time.**
