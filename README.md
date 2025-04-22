@@ -31,6 +31,12 @@ A web application that integrates with Data Analytics models for predicting numb
 - [Test Scenarios](../../wiki/Test-Scenarios)
 - [Test Cases](../../wiki/Test-Cases)
 
+## Diagrams
+- [Data integration diagram](../../wiki/Data-Integration-Diagram)
+- [UML class diagram](../../wiki/UML-Class-Diagram)
+- [Use case diagram](../../wiki/Use-Case-Diagram)
+- [Sequence diagram](../../wiki/Sequence-Diagram)
+
 ## Pages
 - HomePage: Show all train lines with search bar to filter train lines
 - DetailPage: Graph showing passenger count or other attributes
