@@ -3,6 +3,11 @@
 [![Run Vitest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/vitest.yml) [![Run Unittest](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/pytest.yml/badge.svg)](https://github.com/Thanawas-Sirilertsathit/MetroModel/actions/workflows/pytest.yml)
 
 A web application that integrates with Data Analytics models for predicting number of passengers for each train line in Bangkok for commuters in Bangkok. The data that we work on is from March 2025 up to now using sensors to collect weather data every hour. User can predict the value by using our custom predict by input values manually.
+[Go to Github Repository](https://github.com/Thanawas-Sirilertsathit/MetroModel.git)
+
+## Team members
+* Sorasit Kateratorn 6610545944 Computer engineering department, Engineering department, Kasetsart university Bangkhen campus [View picture](Sorasit.png)
+* Thanawas Sirilertsathit 6610545308 Computer engineering department, Engineering department, Kasetsart university Bangkhen campus [View picture](Thanawas.jpg)
 
 ## Objectives
 - Focus on commuters who use train lines in Bangkok to travel.
@@ -42,6 +47,11 @@ A web application that integrates with Data Analytics models for predicting numb
 ## NodeMCU part and Node-red
 * Follow this guide line [NodeMCU guideline](NODEMCU.md).
 * Use this code in Node-red to create a flow [Node-red code](node_red_flows.json).
+
+## Required installations
+* Python 3.11 or newer
+* Micropython for esp32
+* Node version 18 or newer
 
 ## How to run
 **Follow the instructions in [Installation guide](INSTALLATION.md) if this is your first time.**
