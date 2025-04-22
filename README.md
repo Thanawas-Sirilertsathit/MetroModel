@@ -37,6 +37,9 @@ A web application that integrates with Data Analytics models for predicting numb
 - [Use case diagram](../../wiki/Use-Case-Diagram)
 - [Sequence diagram](../../wiki/Sequence-Diagram)
 
+## Presentation slides
+- [Presentation slide](presentation.pdf)
+
 ## Pages
 - HomePage: Show all train lines with search bar to filter train lines
 - DetailPage: Graph showing passenger count or other attributes
