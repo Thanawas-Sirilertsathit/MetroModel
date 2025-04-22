@@ -39,6 +39,10 @@ A web application that integrates with Data Analytics models for predicting numb
 - Get weather forecast data from future and predict passenger congestion
 - Prescriptive analysis for passenger data (Analyze when you should go out using the train line)
 
+## NodeMCU part and Node-red
+* Follow this guide line [NodeMCU guideline](NODEMCU.md).
+* Use this code in Node-red to create a flow [Node-red code](node-red-flows.json).
+
 ## How to run
 **Follow the instructions in [Installation guide](INSTALLATION.md) if this is your first time.**
 
