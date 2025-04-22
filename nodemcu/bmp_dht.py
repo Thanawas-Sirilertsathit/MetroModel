@@ -1,4 +1,5 @@
-# Save this file as main.py in kidbright
+# Save this file as main.py in nodemcu
+# Make sure you have config.py inside the nodemcu and wire up same as wiring.png schematic
 import dht
 import time
 import json
@@ -6,11 +7,10 @@ import network
 from machine import Pin, I2C
 from bmp280 import BMP280
 from umqtt.robust import MQTTClient
-from config_home import WIFI_SSID, WIFI_PASS, MQTT_BROKER, MQTT_USER, MQTT_PASS
+from config import WIFI_SSID, WIFI_PASS, MQTT_BROKER, MQTT_USER, MQTT_PASS
 MINUTE = 300000
 activate = True
 timestamp = time.ticks_ms() - MINUTE
-# Use ESP32 NodeMCU
 i2c = I2C(0, sda=Pin(21), scl=Pin(22))
 lat = 13.73874 # latitude near my house
 lon = 100.42007 # longitude near my house

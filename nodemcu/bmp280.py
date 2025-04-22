@@ -1,4 +1,4 @@
-# Save this file in kidbright with bmp280.py name
+# Save this file in nodemcu with bmp280.py name
 import time
 import struct
 
